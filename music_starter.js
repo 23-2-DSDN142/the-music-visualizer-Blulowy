@@ -1,10 +1,16 @@
 let firstRun = true;
 let Mon;
+let moon; 
+let redmoon;
+let BG;
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if(firstRun){
     rectMode(CENTER);
     Mon = loadImage('Mon.png');
+    moon = loadImage('M.png');
+    redmoon = loadImage('BM.png')
+    BG = loadImage('BG.png')
     firstRun = false;
   }
   background('#17060f')
@@ -27,6 +33,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
    let mooncol1 = color('#8e9895');
    let mooncol2 = color('#b60604');
    let voice = map(other, 0, 100, 0, 1.2)
+   let changemoon = map(other, 0, 100, 0, 260)
    let mooncol = lerpColor(mooncol1, mooncol2, voice);
    let cress1 = color('#4d575f')
    let cress2 = color('#630a13')
@@ -36,26 +43,78 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
    //cracks parametr
    let crsize = 10
    let crcol = color('#ffd831')
-   let heigh1 = map(bass, 0, 100, canvasHeight, 0)
+   let heigh1 = map(bass, 0, 100, canvasHeight, -100)
    let dial1 = map(bass, 0, 100, 190, 240);
    let dial2 = map(bass, 0, 100, canvasHeight/2, canvasHeight/2-30);
-   let heigh2 = map(bass, 0, 100, 300, 0)
+   let heigh2 = map(bass, 0, 100, canvasHeight-200, -100);
+   let dial3 = map(bass, 0, 100, 190, 150);
+   let dial4 = map(bass, 0, 100, canvasHeight/3*2, canvasHeight/3*2-40);
+
+   // bg
+   image(BG,0,0)
 
    // craks
+   drawingContext.shadowBlur = 20;
+   drawingContext.shadowColor = color(255, 216, 49);
    stroke(crcol)
    strokeWeight(crsize)
    line(190, canvasHeight, 190, heigh1);
    if(heigh1<=canvasHeight/2){
     line(190, canvasHeight/2, dial1, dial2);
-    if(dial1>=200){
+    if(dial1>=210){
       line(dial1, dial2, dial1, heigh2);
+      if(heigh2<=200){
+        line(dial1, 200, dial1+30, dial2-200)
+        if(dial1+30>=240){
+          line(dial1+30, dial2-200, dial1+30, heigh2-20)
+        }
+      }
     }
    }
+   if(heigh1<=canvasHeight/3*2){
+    line(190, canvasHeight/3*2, dial3, dial4);
+    if(dial3<=170){
+      line(dial3, dial4, dial3, heigh2)
+      if(heigh2<=canvasHeight/2-30){
+        line(dial3, canvasHeight/2-30, dial3-20, dial4-150)
+        if(dial3-20<=150){
+          line(dial3-20, dial4-150, dial3-20, heigh2-20)
+        }
+      }
+    }
+   }
+
+   line(190+980, canvasHeight, 190+980, heigh1);
+   if(heigh1<=canvasHeight/2){
+    line(190+980, canvasHeight/2, dial1+980, dial2);
+    if(dial1+980>=210+980){
+      line(dial1+980, dial2, dial1+980, heigh2);
+      if(heigh2<=200){
+        line(dial1+980, 200, dial1+30+980, dial2-200)
+        if(dial1+30+980>=240+980){
+          line(dial1+30+980, dial2-200, dial1+30+980, heigh2-20)
+        }
+      }
+    }
+   }
+   if(heigh1<=canvasHeight/3*2){
+    line(190+980, canvasHeight/3*2, dial3+980, dial4);
+    if(dial3+980<=170+980){
+      line(dial3+980, dial4, dial3+980, heigh2)
+      if(heigh2<=canvasHeight/2-30){
+        line(dial3+980, canvasHeight/2-30, dial3-20+980, dial4-150)
+        if(dial3-20+980<=150+980){
+          line(dial3-20+980, dial4-150, dial3-20+980, heigh2-20)
+        }
+      }
+    }
+   }
+   drawingContext.shadowBlur = 0;
 
    
 
   // moon 
-  noStroke()
+  /*noStroke()
   fill(mooncol);
   circle(bar_pos_x, moon_bace, 380);
   push()
@@ -66,6 +125,16 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   pop()
   /*fill(mooncol);
   circle(bar_pos_x+100, moon_bace+20, 50);*/
+  noStroke()
+  noFill()
+  drawingContext.shadowBlur = 200;
+  drawingContext.shadowColor = color(255,255,255);
+  circle(bar_pos_x, moon_bace, 400);
+  drawingContext.shadowBlur = 0;
+  image(moon, 23, 0);
+  tint(255,255,255,changemoon)
+  image(redmoon, 23, 0)
+  tint(255,255,255)
 
 
   // Mon
@@ -73,7 +142,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
   //circles 
   noStroke()
-  fill('#ff0000')
+  //fill('#ff0000')
+  fill(255, 0, 0, 150)
   let m = map(vocal, 0, 100, cir_size, 90);
   let s = map(vocal, 0, 100, cir_size, 70);
   let xs = map(vocal, 0, 100, cir_size, 50);
