@@ -3,6 +3,7 @@ let Mon;
 let moon; 
 let redmoon;
 let BG;
+let eyes;
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   if(firstRun){
@@ -11,6 +12,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
     moon = loadImage('M.png');
     redmoon = loadImage('BM.png')
     BG = loadImage('BG.png')
+    eyes = loadImage('eyes.png')
     firstRun = false;
   }
   background('#17060f')
@@ -39,6 +41,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
    let cress2 = color('#630a13')
    let cress = lerpColor(cress1, cress2, voice);
    let moon_bace = 210;
+
+   //eyes parametr
+   let drums = map(drum, 0, 100, 0, 255);
 
    //cracks parametr
    let crsize = 10
@@ -111,6 +116,11 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
    }
    drawingContext.shadowBlur = 0;
 
+   //eyes
+   tint(255, 255, 255, drums)
+   image(eyes, 0, 0)
+   tint(255,255,255)
+
    
 
   // moon 
@@ -135,7 +145,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   tint(255,255,255,changemoon)
   image(redmoon, 23, 0)
   tint(255,255,255)
-
+  drawingContext.shadowBlur = 0;
 
   // Mon
   image(Mon, 0, 0);
